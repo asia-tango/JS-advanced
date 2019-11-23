@@ -1,4 +1,5 @@
 class UserList {
+
   constructor([...users]) {
     this._users = users;
     this.finalUserId = this._users.length;
@@ -10,6 +11,7 @@ class UserList {
 
   set users([...users]) {
     this._users = users;
+    return this;
   }
 
   showNames () {
@@ -21,16 +23,17 @@ class UserList {
 
   showFullInfo({ id, firstName, lastName, age }) {
     return `User - ${firstName} ${lastName} with id (${id}) is ${age} years old.`;
+    return this;
   }
 
-   showById (id) {
-        this._users.map(user => {
-          if (user.id === id) {
-            console.log(this.showFullInfo(user));
-          }
-          return this;
-        });
-   }
+  showById (id) {
+    this._users.map(user => {
+      if (user.id === id) {
+        console.log(this.showFullInfo(user));
+      }
+      return this;
+    });
+  }
 
   add({ firstName, lastName, age }) {
     if (this.firstName === undefined) {
@@ -44,17 +47,19 @@ class UserList {
       };
       this._users.push(newUser);
       console.log(`Hi everyone, i am ${firstName}`);
-    }
+    return this;
+  }
   
-    removeById(id) {
-      if (this._users.findIndex(val => val.id === this.id) !== -1) {
-        console.log(`bye bye ${this._users.firstName}`);
-        let removeIndex = this._users.map(item => item.id).indexOf(this.id);
-        this._users.splice(removeIndex, 1);
-      } else {
-        console.log(`Unable to find the user with id: ${id}`);
+  removeById(id) {
+    if (this._users.findIndex(val => val.id === this.id)) {
+      console.log(`bye bye user with id (${id})`);
+      let user = this._users.filter((user) => user.id !== id);
+        this._users = user;
+    } else if (this._users.findIndex(val => val.id !== this.id)) {
+      console.log(`Unable to find the user with id: ${id}`);
       }
-    }
+    return this;
+  }
 
   logUsersCould() {
     console.log(`The count of all users: ${this._users.length}`);
